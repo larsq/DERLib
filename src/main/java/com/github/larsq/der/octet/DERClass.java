@@ -6,7 +6,7 @@ enum DERClass {
     CONTEXT_SPECIFIC(128),
     PRIVATE(192);
 
-    private final int value;
+    final int value;
 
     DERClass(int value) {
         this.value = value;

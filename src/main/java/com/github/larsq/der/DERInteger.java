@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class DERInteger implements DEREntity<BigInteger> {
     private final byte[] content;
-    private transient String representation;
+    private String representation;
 
     DERInteger(byte[] content) {
         this.content = Arrays.copyOf(content, content.length);

@@ -1,28 +1,25 @@
 package com.github.larsq.der.octet;
 
-import com.google.common.collect.Iterators;
-
 import java.math.BigInteger;
-import java.util.PrimitiveIterator;
 
-class DERTagOctet {
+class DERTag {
     final DERClass derClass;
     final boolean constructed;
     final int tag;
     final boolean continueWithNext;
 
-    DERTagOctet(DERClass derClass, boolean constructed, int tag, boolean continueWithNext) {
+    DERTag(DERClass derClass, boolean constructed, int tag, boolean continueWithNext) {
         this.derClass = derClass;
         this.constructed = constructed;
         this.tag = tag;
         this.continueWithNext = continueWithNext;
     }
 
-    static DERTagOctet encode(byte value) {
-        return new DERTagOctet(DERClass.valueOf(value & 192), (value & 32) > 0, value & 31, (value & 31) == 31);
+    static DERTag encode(byte value) {
+        return new DERTag(DERClass.valueOf(value & 192), (value & 32) > 0, value & 31, (value & 31) == 31);
     }
 
-    static int tag(DERTagOctet start, byte... intermediaries) {
+    static int tag(DERTag start, byte... intermediaries) {
         if (!start.continueWithNext) {
             return start.tag;
         }

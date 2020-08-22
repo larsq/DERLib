@@ -27,25 +27,9 @@ class DERLengthOctet {
         return new DERLengthOctet(DERLengthForm.SHORT, value & 127);
     }
 
-    private static void checkIntermediaries(int expected, byte[] intermediaries) {
-        if (intermediaries.length != expected) {
-            throw new IllegalArgumentException("Expected " + expected + " octets: found " + intermediaries.length);
-        }
-    }
-
-    private static void checkNoIntermediaries(byte[] intermediaries) {
-        if (isNotEmpty(intermediaries)) {
-            throw new IllegalArgumentException("For short form, no intermediary length octets expected");
-        }
-    }
-
-    private static boolean isNotEmpty(byte[] bytes) {
-        return bytes != null && bytes.length > 0;
-    }
-
     public static int size(DERLengthOctet start, byte[] bytes) {
         if (start.form == DERLengthForm.SHORT) {
-            checkNoIntermediaries(bytes);
+            DERUtil.isNotEmpty(bytes);
             return start.value;
         }
 
@@ -53,7 +37,7 @@ class DERLengthOctet {
             return -1;
         }
 
-        checkIntermediaries(start.value, bytes);
+        DERUtil.checkSize(start.value, bytes);
         return new BigInteger(bytes).intValue();
     }
 }

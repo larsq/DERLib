@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class DERSequence implements DEREntity<List<? extends DEREntity<?>>>, Iterable<DEREntity<?>> {
     private final List<DEREntity<?>> elements;
@@ -48,6 +49,19 @@ public class DERSequence implements DEREntity<List<? extends DEREntity<?>>>, Ite
         }
 
         throw new ClassCastException("Could not get element: instance of " + entity.getClass().getName());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DERSequence sequence = (DERSequence) o;
+        return elements.equals(sequence.elements);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(elements);
     }
 
     public boolean verify(DERSequenceSchema schema) {

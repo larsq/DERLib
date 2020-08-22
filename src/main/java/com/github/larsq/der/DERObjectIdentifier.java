@@ -1,5 +1,7 @@
 package com.github.larsq.der;
 
+import com.github.larsq.der.octet.DERUtil;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +19,7 @@ public class DERObjectIdentifier implements DEREntity<String> {
         return asString();
     }
 
-    public static DERObjectIdentifier decode(byte[] bytes, boolean relative) {
+    public static DERObjectIdentifier decode(byte[] bytes) {
         List<Integer> identifiers = new ArrayList<>();
 
         int last = 0;
@@ -33,11 +35,9 @@ public class DERObjectIdentifier implements DEREntity<String> {
             throw new IllegalArgumentException("Unexpected value");
         }
 
-        if (!relative) {
-            int identifier = identifiers.remove(0);
-            identifiers.add(0, identifier % 40);
-            identifiers.add(0, identifier / 40);
-        }
+        int identifier = identifiers.remove(0);
+        identifiers.add(0, identifier % 40);
+        identifiers.add(0, identifier / 40);
 
         return new DERObjectIdentifier(identifiers.stream().mapToInt(Integer::intValue).toArray());
     }
@@ -45,7 +45,7 @@ public class DERObjectIdentifier implements DEREntity<String> {
     @Override
     public String toString() {
         return "DERObjectIdentifier{" +
-                "identifiers=" + asString() +
+                asString() +
                 '}';
     }
 

@@ -17,11 +17,24 @@ public class DEROctetString implements DEREntity<byte[]> {
     @Override
     public String toString() {
         return "DEROctetString{" +
-                "value=" + values.length + " bytes" +
+                values.length + " bytes" +
                 '}';
     }
 
     public static DEROctetString decode(byte[] content) {
         return new DEROctetString(Arrays.copyOf(content, content.length));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DEROctetString that = (DEROctetString) o;
+        return Arrays.equals(values, that.values);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(values);
     }
 }

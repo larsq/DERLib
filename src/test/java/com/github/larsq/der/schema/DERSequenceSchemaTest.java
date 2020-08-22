@@ -3,8 +3,6 @@ package com.github.larsq.der.schema;
 import org.junit.jupiter.api.Test;
 
 import static com.github.larsq.der.TestDEREntityFactory.*;
-import static com.github.larsq.der.TestDEREntityFactory.createInteger;
-import static com.github.larsq.der.TestDEREntityFactory.createSequence;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

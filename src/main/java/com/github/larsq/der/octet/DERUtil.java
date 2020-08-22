@@ -1,7 +1,6 @@
-package com.github.larsq.der;
+package com.github.larsq.der.octet;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
 public class DERUtil {
 
@@ -9,7 +8,6 @@ public class DERUtil {
         //Explicit empty
     }
 
-    // Encode unsigned integer using 7 bits, most significant
     public static int uint7msf(int firstInclusive, int lastExclusive, byte[] bytes) {
         BigInteger value = BigInteger.ZERO;
         for (int i = 0; i < lastExclusive - firstInclusive; i++) {
@@ -20,9 +18,15 @@ public class DERUtil {
         return value.intValueExact();
     }
 
-    public static int[] unsigned(byte[] bytes) {
-        int[] ints = new int[bytes.length];
-        Arrays.setAll(ints, index -> bytes[index] & 255);
-        return ints;
+    public static void checkSize(int expected, byte[] bytes) {
+        if (bytes.length != expected) {
+            throw new IllegalArgumentException("Expected " + expected + " octets: found " + bytes.length);
+        }
+    }
+
+    public static void isNotEmpty(byte[] bytes) {
+        if (bytes != null && bytes.length > 0) {
+            throw new IllegalArgumentException("For short form, no intermediary length octets expected");
+        }
     }
 }

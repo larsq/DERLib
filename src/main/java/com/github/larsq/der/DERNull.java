@@ -22,6 +22,6 @@ public class DERNull implements DEREntity<Void> {
 
     @Override
     public String toString() {
-        return "DERNull{}";
+        return "DERNull";
     }
 }

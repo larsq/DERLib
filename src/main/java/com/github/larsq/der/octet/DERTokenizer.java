@@ -86,7 +86,7 @@ public class DERTokenizer implements Iterator<DEREntity<?>> {
     private int readTag() {
         boolean finished = false;
 
-        DERTagOctet start = null;
+        DERTag start = null;
         ByteBuffer intermediaries = ByteBuffer.allocate(4);
 
         while (!finished) {
@@ -94,7 +94,7 @@ public class DERTokenizer implements Iterator<DEREntity<?>> {
 
             byte next = buffer[index++];
             if (start == null) {
-                start = DERTagOctet.encode(next);
+                start = DERTag.encode(next);
                 finished = !start.continueWithNext;
                 LOGGER.debug("[{}] first byte: {}", index, start);
             } else {
@@ -106,7 +106,7 @@ public class DERTokenizer implements Iterator<DEREntity<?>> {
 
 
         LOGGER.debug("[{}] Tag read: {} bytes", index, 1 + intermediaries.position());
-        return DERTagOctet.tag(start, intermediaries.rewind().array());
+        return DERTag.tag(start, intermediaries.rewind().array());
     }
 
     private void checkReachEOF() {

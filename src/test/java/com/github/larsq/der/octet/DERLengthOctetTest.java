@@ -34,6 +34,17 @@ class DERLengthOctetTest {
                 new byte[]{64, 126}));
     }
 
+    @Test
+    void shortFormCouldNotHaveAnyIntermediaries() {
+        assertThrows(IllegalArgumentException.class,
+                () -> DERLengthOctet.size(new DERLengthOctet(SHORT, 2), new byte[]{0, 1, 2}));
+    }
+
+    @Test
+    void indefiniteSize() {
+        assertEquals(-1, DERLengthOctet.size(new DERLengthOctet(INDEFINITE, 0), new byte[0]));
+    }
+
     private void assertLengthOctet(DERLengthOctet octet, DERLengthOctet.DERLengthForm form, int value) {
         assertEquals(form, octet.form);
         assertEquals(value, octet.value);
