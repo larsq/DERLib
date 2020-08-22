@@ -1,7 +1,5 @@
 package com.github.larsq.der.octet;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.math.BigInteger;
 
 class DERLengthOctet {
@@ -36,9 +34,13 @@ class DERLengthOctet {
     }
 
     private static void checkNoIntermediaries(byte[] intermediaries) {
-        if (ArrayUtils.isNotEmpty(intermediaries)) {
+        if (isNotEmpty(intermediaries)) {
             throw new IllegalArgumentException("For short form, no intermediary length octets expected");
         }
+    }
+
+    private static boolean isNotEmpty(byte[] bytes) {
+        return bytes != null && bytes.length > 0;
     }
 
     public static int size(DERLengthOctet start, byte[] bytes) {

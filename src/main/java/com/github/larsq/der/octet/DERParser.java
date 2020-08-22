@@ -10,7 +10,7 @@ public class DERParser {
     @SuppressWarnings("unchecked")
     public <T extends DEREntity<?>> T parse(byte[] bytes) {
         List<DEREntity<?>> items = new ArrayList<>();
-        new DERTokenizer(bytes).forEachRemaining(items::add);
+        new com.github.larsq.der.octet.DERTokenizer(bytes).forEachRemaining(items::add);
 
         return (T) Iterables.getOnlyElement(items);
     }

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# argument 1: kind of release, must be dev, release or candidate. The keyword is case insensitive
+# argument 2: minor version that is used for release
+
+# returns:
+# dev-<githash> for dev 
+# <version>-<patch version>+<githash> where patch version is the commit date for HEAD
+# <version>+<githash> for candidate
+#
+# githash is the last commit. If the current build has changes that are not pushed, the githas get 
+# the suffix '.dirty' to denote that the build contains uncommited changes
+
+RELEASE=$(echo $1 | tr '[:upper:]' '[:lower:]')
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+GITHASH=$($DIR/githash)
+VERSION=$2
+
+check_version() {
+    if [ -z "$1" ]; then
+        echo "ERROR: Version must be set"
+        exit -1
+    fi
+}
+
+if [ "$RELEASE" = 'dev' ]; then
+    VERSION="dev-$GITHASH"
+elif [ "$RELEASE" = 'release' ]; then
+    check_version $VERSION
+    VERSION="$VERSION+$GITHASH"
+elif [ "$RELEASE" = 'candidate' ]; then
+    check_version $VERSION
+    PATCH_VERSION=$(date -d "$(git show -s --format=%ci ${GITHASH%.dirty})" -u +"%Y%m%d%H%M")
+    VERSION="$VERSION.$PATCH_VERSION+$GITHASH"
+else
+    echo "ERROR: Unrecognized keyword $1: must be dev, release or candidate"
+    exit -1
+fi
+
+echo $VERSION

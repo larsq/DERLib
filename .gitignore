@@ -1,1 +1,3 @@
-coverage/
+.gradle
+.idea/
+build
