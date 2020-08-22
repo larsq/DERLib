@@ -80,6 +80,7 @@ Currently the following types are supported:
 * Integer, decoding only
 * Null, decoding only
 * Sequence, decoding only
+* Object Identifier, decoding only
 * Octet String, decoding only
 
 That is, a minimalistic approach to read RSA and decode RSA Private Keys
