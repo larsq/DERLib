@@ -13,7 +13,6 @@ The focus for this project is to provide means for validating complex structures
 ### Schema
 
 ```java
-
 void compliesToSchema() {
         DERSequence sequence = new DERParser().parse(stream);
 
@@ -43,7 +42,7 @@ be zero
 ```java
     enum RsaKeyParameter {
         VERSION, MOD, PUB_EXP, PRIV_EXP, P1, P2, EXP1, EXP2, COEFFICIENT
-    }
+    };
 
 
      void canCreateKeysFromEncoding() throws Exception {
@@ -83,4 +82,32 @@ Currently the following types are supported:
 * Object Identifier, decoding only
 * Octet String, decoding only
 
-That is, a minimalistic approach to read RSA and decode RSA Private Keys
+That is, a minimalistic approach to decode RSA Private Keys
+
+# Building
+
+It is recommended to use ```make``` command. The following targets are available: 
+
+* Clean
+* Build
+* Assemble
+* Version
+* Publish (not yet implemented)
+
+The clean, build and assemble targets are using gradle's counterparts. Version return the derived 
+application version that is set when assembly is created
+
+## Version
+
+By specifiying ```APPLICATION_VERSION```, a candidate version is set as
+```<APPLICATION_VERSION>.<patch version>+<git sha>``` where patch version is the timestamp
+when the last commit was made for HEAD. If ```APPLICATION_VERSION``` is not defined,
+a dev version is generated as ```dev-<git sha>```.
+
+```bash
+$ APPLICATION_VERSION=1.0 make version
+1.0.202008221057+745764a.dirty  #dirty means there are uncommited parts
+
+$ make version
+dev-745764a.dirty
+```
